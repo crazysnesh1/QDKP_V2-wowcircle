@@ -42,6 +42,7 @@ myClass.ColumnWidth = {
     roll = 40,
     bid = 55,
     value = 50,
+    officer = 140,  -- НОВЫЙ СТОЛБЕЦ ЗАМЕТОК
 }
 
 -------------------- Window management ----------------------
@@ -125,7 +126,6 @@ function myClass.Refresh(self, forceResort)
     QDKP2frame2_selectList_guildOnline:SetChecked(false)
     QDKP2frame2_selectList_Raid:SetChecked(false)
     QDKP2frame2_selectList_Bid:SetChecked(false)
-    --QDKP2frame2_selectList_Session:SetChecked(false)
 
     myClass:PupulateList()
     
@@ -139,6 +139,7 @@ function myClass.Refresh(self, forceResort)
         myClass:ShowColumn('roll', false)
         myClass:ShowColumn('bid', false)
         myClass:ShowColumn('value', false)
+        myClass:ShowColumn('officer', true)  -- ПОКАЗЫВАЕМ ЗАМЕТКИ В ГИЛЬДИИ
         QDKP2_Frame2_sesscount:Hide()
         QDKP2_Frame2_SessionZone:Hide()
         QDKP2_Frame2_bidcount:Hide()
@@ -157,6 +158,7 @@ function myClass.Refresh(self, forceResort)
         myClass:ShowColumn('roll', false)
         myClass:ShowColumn('bid', false)
         myClass:ShowColumn('value', false)
+        myClass:ShowColumn('officer', true)  -- ПОКАЗЫВАЕМ ЗАМЕТКИ В РЕЙДЕ
         QDKP2_Frame2_sesscount:Show()
         QDKP2_Frame2_SessionZone:Show()
         QDKP2_Frame2_bidcount:Hide()
@@ -171,6 +173,7 @@ function myClass.Refresh(self, forceResort)
         myClass:ShowColumn('roll', true)
         myClass:ShowColumn('bid', true)
         myClass:ShowColumn('value', true)
+        myClass:ShowColumn('officer', true)  -- ПОКАЗЫВАЕМ ЗАМЕТКИ В СТАВКАХ
         QDKP2_Frame2_sesscount:Show()
         QDKP2_Frame2_SessionZone:Show()
         QDKP2_Frame2_bidcount:Show()
@@ -282,6 +285,7 @@ function myClass.Refresh(self, forceResort)
                 classColor = QDKP2_GetClassColor(class)
             end
             getglobal(ParentName .. "_class"):SetVertexColor(classColor.r, classColor.g, classColor.b, a)
+            getglobal(ParentName .. "_officer"):SetVertexColor(r, g, b, a)  -- ЦВЕТ ДЛЯ ЗАМЕТОК
             if isinguild and QDKP2_GetNet(name) < 0 then
                 getglobal(ParentName .. "_net"):SetVertexColor(1, 0.2, 0.2)
             else
@@ -294,7 +298,7 @@ function myClass.Refresh(self, forceResort)
             getglobal(ParentName .. "_deltaspent"):SetVertexColor(r, g, b, a)
 
             --Setting content
-            local nameS, roll, bid, value, rank, net, total, spent, hours, s_gain, s_spent
+            local nameS, roll, bid, value, rank, officerNote, net, total, spent, hours, s_gain, s_spent
             nameS = QDKP2_GetName(name) or 'Unknown'
             if self.Sel == 'bid' then
                 local BidEntry = QDKP2_BidM_GetBidder(name) or {}
@@ -307,6 +311,10 @@ function myClass.Refresh(self, forceResort)
                 value = ''
             end
             rank = QDKP2rank[name]
+            
+            -- ПОЛУЧАЕМ ГИЛЬДЕЙСКУЮ ЗАМЕТКУ (ОБЫЧНУЮ)
+            officerNote = myClass:GetOfficerNote(name) or ''
+            
             if class == "Death Knight" then
                 class = "DK";
             end
@@ -339,6 +347,7 @@ function myClass.Refresh(self, forceResort)
             getglobal(ParentName .. "_value"):SetText(tostring(value or '-'))
             getglobal(ParentName .. "_rank"):SetText(tostring(rank or '-'));
             getglobal(ParentName .. "_class"):SetText(tostring(class or '-'));
+            getglobal(ParentName .. "_officer"):SetText(tostring(officerNote));  -- ВЫВОДИМ ОБЫЧНУЮ ЗАМЕТКУ
             getglobal(ParentName .. "_net"):SetText(tostring(net or '-') .. DKP_Ast);
             getglobal(ParentName .. "_total"):SetText(tostring(total or '-') .. DKP_Ast);
             getglobal(ParentName .. "_spent"):SetText(tostring(spent or '-') .. DKP_Ast);
@@ -362,6 +371,25 @@ function myClass.Refresh(self, forceResort)
         numEntries = #self.List;
     end
     FauxScrollFrame_Update(QDKP2_frame2_scrollbar, #self.List, numEntries, 16);
+end
+
+-- ОБНОВЛЕННАЯ ФУНКЦИЯ ДЛЯ ПОЛУЧЕНИЯ ГИЛЬДЕЙСКОЙ ЗАМЕТКИ (ОБЫЧНОЙ)
+function myClass.GetOfficerNote(self, name)
+    if not name or not QDKP2_IsInGuild(name) then
+        return nil
+    end
+    
+    -- Ищем игрока в гильдии
+    for i = 1, GetNumGuildMembers() do
+        local fullName, rank, rankIndex, level, class, zone, note, officernote, online, status, classFileName = GetGuildRosterInfo(i)
+        if fullName then
+            local shortName = string.match(fullName, "([^%-]+)") -- Убираем сервер из имени
+            if shortName == name then
+                return note  -- ИЗМЕНЕНО: используем note вместо officernote
+            end
+        end
+    end
+    return nil
 end
 
 function myClass.Update(self)
@@ -1150,6 +1178,7 @@ myClass.Sort.Values.BidRoll = 512
 myClass.Sort.Values.Alpha = 256
 myClass.Sort.Values.Rank = 128
 myClass.Sort.Values.Class = 64
+myClass.Sort.Values.Officer = 48  -- НОВЫЙ СТОЛБЕЦ ДЛЯ СОРТИРОВКИ
 myClass.Sort.Values.Net = 32
 myClass.Sort.Values.Total = 16
 myClass.Sort.Values.Spent = 8
@@ -1164,6 +1193,7 @@ myClass.Sort.Reverse.BidRoll = true
 myClass.Sort.Reverse.Alpha = false
 myClass.Sort.Reverse.Rank = false
 myClass.Sort.Reverse.Class = false
+myClass.Sort.Reverse.Officer = false  -- НОВЫЙ СТОЛБЕЦ ДЛЯ СОРТИРОВКИ
 myClass.Sort.Reverse.Net = true
 myClass.Sort.Reverse.Total = true
 myClass.Sort.Reverse.Spent = true
@@ -1228,6 +1258,21 @@ local function SortComparitor(val1, val2)
         test1 = invertBuffer;
     end
     increment = Values.Class
+    if (test1 < test2) then
+        compare = compare - increment;
+    elseif (test1 > test2) then
+        compare = compare + increment;
+    end
+
+    -- Officer Note (НОВЫЙ СТОЛБЕЦ)
+    test1 = myClass:GetOfficerNote(val1) or ""
+    test2 = myClass:GetOfficerNote(val2) or ""
+    if Reverse.Officer then
+        invertBuffer = test2;
+        test2 = test1;
+        test1 = invertBuffer;
+    end
+    increment = Values.Officer
     if (test1 < test2) then
         compare = compare - increment;
     elseif (test1 > test2) then
@@ -1415,6 +1460,8 @@ function myClass.SortList(self, Order, List, forceResort)
         lastmax = Values.Rank
     elseif (Order == "Class") then
         lastmax = Values.Class
+    elseif (Order == "Officer") then
+        lastmax = Values.Officer
     elseif (Order == "Net") then
         lastmax = Values.Net
     elseif (Order == "Total") then
@@ -1445,6 +1492,9 @@ function myClass.SortList(self, Order, List, forceResort)
     end
     if (Values.Class > lastmax) then
         Values.Class = Values.Class / 2;
+    end
+    if (Values.Officer > lastmax) then
+        Values.Officer = Values.Officer / 2;
     end
     if (Values.Net > lastmax) then
         Values.Net = Values.Net / 2;
@@ -1479,6 +1529,8 @@ function myClass.SortList(self, Order, List, forceResort)
         Values.Rank = 2048
     elseif (Order == "Class") then
         Values.Class = 2048
+    elseif (Order == "Officer") then
+        Values.Officer = 2048
     elseif (Order == "Net") then
         Values.Net = 2048
     elseif (Order == "Total") then

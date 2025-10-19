@@ -1236,7 +1236,7 @@
 
     <Button name="QDKP2_frame2_entry_template" virtual="true">
         <Size>
-            <AbsDimension x="660" y="14"/>
+            <AbsDimension x="810" y="14"/>
         </Size>
         <Layers>
             <Layer level="ARTWORK">
@@ -1339,12 +1339,22 @@
                     </Anchors>
                 </FontString>
 
+                <!-- НОВЫЙ СТОЛБЕЦ ГИЛЬДЕЙСКИХ ЗАМЕТОК -->
+                <FontString name="$parent_officer" inherits="GameFontHighlightSmall" justifyH="CENTER" text="">
+                    <Size>
+                        <AbsDimension x="140" y="14"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parent_class" relativePoint="TOPRIGHT"/>
+                    </Anchors>
+                </FontString>
+
                 <FontString name="$parent_net" inherits="GameFontNormalSmall" justifyH="CENTER" text="">
                     <Size>
                         <AbsDimension x="55" y="14"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="TOPLEFT" relativeTo="$parent_class" relativePoint="TOPRIGHT"/>
+                        <Anchor point="TOPLEFT" relativeTo="$parent_officer" relativePoint="TOPRIGHT"/>
                     </Anchors>
                 </FontString>
 
@@ -1411,7 +1421,7 @@
 
     <Frame name="QDKP2_Frame2" inherits="QDKP2DialogTitled">
         <Size>
-            <AbsDimension x="715" y="380"/>
+            <AbsDimension x="860" y="380"/>
         </Size>
         <Anchors>
             <Anchor relativePoint="TOPLEFT" point="TOPLEFT">
@@ -1934,6 +1944,19 @@
                 </Anchors>
                 <Scripts>
                     <OnClick>QDKP2GUI_Roster:SortBy(QDKP2_LOC_GUICLASS)</OnClick>
+                </Scripts>
+            </Button>
+            <!-- НОВАЯ КНОПКА СОРТИРОВКИ ДЛЯ ЗАМЕТОК -->
+            <Button name="$parent_SortBtn_officer" inherits="UIPanelButtonTemplate" text="Заметки">
+                <Size>
+                    <AbsDimension x="140" y="25"/>
+                </Size>
+                <Anchors>
+                    <Anchor relativePoint="LEFT" point="LEFT" relativeTo="QDKP2_frame2_title_officer"/>
+                    <Anchor relativePoint="RIGHT" point="RIGHT" relativeTo="QDKP2_frame2_title_officer"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>QDKP2GUI_Roster:SortBy("Officer")</OnClick>
                 </Scripts>
             </Button>
             <Button name="$parent_SortBtn_net" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_Net">
@@ -3058,5 +3081,3 @@
         </Scripts>
     </Frame>
 </Ui>
-
-

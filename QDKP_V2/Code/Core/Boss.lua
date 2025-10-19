@@ -27,6 +27,10 @@ boss_translator["Халион"] = "Halion"
 boss_translator["Боевой корабль"] = "Icecrown Gunship Battle"
 boss_translator["Бой на кораблях"] = "Icecrown Gunship Battle"
 boss_translator["Gunship Battle"] = "Icecrown Gunship Battle"
+boss_translator["The Skybreaker"] = "Icecrown Gunship Battle"
+boss_translator["Усмиритель небес"] = "Icecrown Gunship Battle"
+boss_translator["Orgrim's Hammer"] = "Icecrown Gunship Battle"
+boss_translator["Молот Оргрима"] = "Icecrown Gunship Battle"
 boss_translator["Валь'киры-близнецы"] = "Val'kyr Twins"
 boss_translator["Чудовища Нордскола"] = "Northrend Beasts"
 boss_translator["Королева Лана'тель"] = "Blood-Queen Lana'thel"
@@ -34,7 +38,47 @@ boss_translator["Кровавая королева Лана'тель"] = "Blood-
 boss_translator["Кровавый Совет"] = "Blood Prince Council"
 boss_translator["Совет Принцев Крови"] = "Blood Prince Council"
 
+-- Добавьте в начало файла (после boss_translator)
+local specialBossHandlers = {
+    -- Ульдуар
+    ["Ходир"] = function()
+        return not UnitExists("boss1") or UnitHealth("boss1") == 0
+    end,
+    ["Торим"] = function()
+        return not UnitExists("boss1") and not UnitExists("boss2")
+    end,
+    ["Фрейя"] = function()
+        local isFriendly = UnitIsFriend("player", "boss1")
+        return isFriendly or not UnitExists("boss1")
+    end,
+    ["Мимирон"] = function()
+        return not UnitExists("boss1")
+    end,
+    
+    -- ЦЛК
+    ["Icecrown Gunship Battle"] = function()
+        -- АДАПТИРУЙТЕ: Проверьте как определяется завершение на вашем сервере
+        return not UnitExists("boss1") or QDKP2_ShipBattleCompleted
+    end,
+    ["Валитрия Сноходица"] = function()
+        -- АДАПТИРУЙТЕ: Проверьте механику исцеления
+        return QDKP2_ValithriaHealed or not UnitExists("boss1")
+    end
+}
+
+QDKP2_ShipBattleCompleted = false
+QDKP2_ValithriaHealed = false
+
 function QDKP2_BossKilled(boss)
+    -- Добавьте проверку на особых боссов
+    if specialBossHandlers[boss] then
+        QDKP2_Debug(3, "Core", "Обнаружен особый босс: " .. boss)
+        -- Для особых боссов используем специальную проверку
+        if not QDKP2_CheckSpecialBoss(boss) then
+            QDKP2_Debug(2, "Core", "Особый босс " .. boss .. " еще не побежден")
+            return
+        end
+    end
     -- called mainly by event, triggers a boss award if <boss> is in QDKP2_Bosses table.
     -- uses libBabble-Bosses for locales.
     QDKP2_Debug(3, "Core", boss .. " has died")
@@ -59,6 +103,7 @@ function QDKP2_BossKilled(boss)
     end
 
     local award = QDKP2_GetBossAward(boss)
+	QDKP2_Debug(2, "Core", boss .. " award is "..tostring(award).." DKP")
 
     if award then
         QDKP2log_Entry("RAID", boss, QDKP2LOG_BOSS)
@@ -119,6 +164,7 @@ function QDKP2_IsInBossTable(boss, DKPType)
             return BossDKP[DKPType]
         end
     end
+	QDKP2_Debug(2, "Core", tostring(boss) .. " (" .. tostring(bossEng) .. ") not found in QDKP2_Bosses")
 end
 
 function QDKP2_BossBonusSet(todo)
@@ -139,4 +185,66 @@ function QDKP2_BossBonusSet(todo)
     end
 end
 
+function QDKP2_ForceBossKill(bossName)
+    QDKP2_Debug(2, "Core", "Принудительный вызов награды для босса: " .. bossName)
+    QDKP2_BossKilled(bossName)
+end
+
+-- Добавьте в конец файла обработчик событий
+local eventFrame = CreateFrame("Frame")
+eventFrame:RegisterEvent("CHAT_MSG_MONSTER_YELL")
+eventFrame:RegisterEvent("ENCOUNTER_END")
+
+eventFrame:SetScript("OnEvent", function(self, event, ...)
+    if event == "CHAT_MSG_MONSTER_YELL" then
+        local msg, sender = ...
+        
+        -- Бой на кораблях в ЦЛК
+        if string.find(msg, "Наш корабль уничтожен") or 
+           string.find(msg, "Корабль Орды") or
+           string.find(msg, "Корабль Альянса") or
+           string.find(msg, "Победа за") then
+            QDKP2_ShipBattleCompleted = true
+            QDKP2_Debug(2, "Core", "Бой на кораблях завершен! Вызываем награду.")
+            QDKP2_BossKilled("Icecrown Gunship Battle")
+        end
+        
+        -- Валитрия Сноходица - ОБНОВЛЕННЫЙ ТЕКСТ
+        if string.find(msg, "Я ИЗЛЕЧИЛАСЬ!") and 
+           (sender == "Валитрия Сноходица" or sender == "Valithria Dreamwalker") then
+            QDKP2_ValithriaHealed = true
+            QDKP2_Debug(2, "Core", "Валитрия исцелена! Вызываем награду.")
+            QDKP2_BossKilled("Валитрия Сноходица")
+        end
+        
+        -- Ходир (Ульдуар)
+        if string.find(msg, "Спасибо") and sender == "Ходир" then
+            QDKP2_Debug(2, "Core", "Ходир завершен! Вызываем награду.")
+            QDKP2_BossKilled("Ходир")
+        end
+        
+        -- Фрейя (Ульдуар)
+        if string.find(msg, "Я свободна") and sender == "Фрейя" then
+            QDKP2_Debug(2, "Core", "Фрейя завершена! Вызываем награду.")
+            QDKP2_BossKilled("Фрейя")
+        end
+        
+    elseif event == "ENCOUNTER_END" then
+        local encounterID, encounterName, difficultyID, groupSize, success = ...
+        if success then
+            QDKP2_Debug(2, "Core", "Энкаунтер завершен: " .. encounterName)
+            -- Для некоторых боссов можно использовать событие завершения энкаунтера
+            if specialBossHandlers[encounterName] then
+                QDKP2_BossKilled(encounterName)
+            end
+        end
+    end
+end)
+
+-- Функция сброса состояний
+function QDKP2_ResetSpecialBosses()
+    QDKP2_ShipBattleCompleted = false
+    QDKP2_ValithriaHealed = false
+    QDKP2_Debug(2, "Core", "Состояния особых боссов сброшены")
+end
 
