@@ -4,7 +4,7 @@
 --        ## RUSSIAN (ruRU) LOCALIZATION ##
 if GetLocale() == 'ruRU' then
 
-    QDKP2_LOC_Authors = "Спасибо что используете QDKP от Verrisely, гильдия Soulflayer"
+    QDKP2_LOC_Authors = "В Данной версии адонна есть правки и улучшения от CoolSnesh, гильдия This is not my blood"
 
 
     --General

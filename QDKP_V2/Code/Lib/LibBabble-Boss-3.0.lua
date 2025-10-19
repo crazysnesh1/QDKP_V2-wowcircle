@@ -4651,7 +4651,7 @@ elseif GAME_LOCALE == "ruRU" then
 	["Blood Prince Council"] = "Кровавый Совет",
 	["Blood Princes"] = "Совет Принцев Крови",
 	["Blood Steward of Kirtonos"] = "Кровавая прислужница Киртоноса",
-	["Blood-Queen Lana'thel"] = "Королева Лана'тель",
+	["Blood-Queen Lana'thel"] = "Кровавая королева Лана'тель",
 	["Bloodlord Mandokir"] = "Мандокир Повелитель Крови",
 	["Bloodmage Thalnos"] = "Волшебник Крови Талнос",
 	Boahn = "Боан",
