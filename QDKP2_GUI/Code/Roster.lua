@@ -376,20 +376,37 @@ end
 -- ОБНОВЛЕННАЯ ФУНКЦИЯ ДЛЯ ПОЛУЧЕНИЯ ГИЛЬДЕЙСКОЙ ЗАМЕТКИ (ОБЫЧНОЙ)
 function myClass.GetOfficerNote(self, name)
     if not name or not QDKP2_IsInGuild(name) then
-        return nil
+        return ""
     end
     
-    -- Ищем игрока в гильдии
-    for i = 1, GetNumGuildMembers() do
-        local fullName, rank, rankIndex, level, class, zone, note, officernote, online, status, classFileName = GetGuildRosterInfo(i)
-        if fullName then
-            local shortName = string.match(fullName, "([^%-]+)") -- Убираем сервер из имени
-            if shortName == name then
-                return note  -- ИЗМЕНЕНО: используем note вместо officernote
-            end
+    -- Используем локальный кеш на время сессии
+    if not self.officerNoteCache then
+        self.officerNoteCache = {}
+    end
+    
+    -- Если есть в кеше - возвращаем
+    if self.officerNoteCache[name] ~= nil then
+        return self.officerNoteCache[name]
+    end
+    
+    -- Иначе ищем и кешируем
+    for i = 1, QDKP2_GetNumGuildMembers(true) do
+        local gname, rank, rankIndex, level, class, zone, note, officernote, datafield, online, status, isinguild = QDKP2_GetGuildRosterInfo(i)
+        if gname == name then
+            self.officerNoteCache[name] = note or ""
+            return note or ""
         end
     end
-    return nil
+    
+    self.officerNoteCache[name] = ""
+    return ""
+end
+
+-- Добавляем функцию очистки кеша при обновлении гильдии
+function myClass.ClearOfficerNoteCache(self)
+    if self.officerNoteCache then
+        table.wipe(self.officerNoteCache)
+    end
 end
 
 function myClass.Update(self)

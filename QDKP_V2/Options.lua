@@ -37,15 +37,15 @@ QDKP2_Bosses = {
 	{ name = "--Icecrown Citadel--", DKP_10N = 0, DKP_10H = 0, DKP_25N = 0, DKP_25H = 0 },
     { name = "Lord Marrowgar", DKP_10N = 0, DKP_10H = 150, DKP_25N = 100, DKP_25H = 200 },
     { name = "Lady Deathwhisper", DKP_10N = 0, DKP_10H = 150, DKP_25N = 100, DKP_25H = 200 },
-	{ name = "Icecrown Gunship Battle", DKP_10N = 0, DKP_10H = 1, DKP_25N = 2, DKP_25H = 3 },
-    { name = "Deathbringer Saurfang", DKP_10N = 0, DKP_10H = 300, DKP_25N = 200, DKP_25H = 400 },
+	{ name = "Icecrown Gunship Battle", DKP_10N = 0, DKP_10H = 150, DKP_25N = 100, DKP_25H = 200 },
+    { name = "Deathbringer Saurfang", DKP_10N = 0, DKP_10H = 150, DKP_25N = 100, DKP_25H = 200 },
     { name = "Festergut", DKP_10N = 0, DKP_10H = 150, DKP_25N = 100, DKP_25H = 200 },
     { name = "Rotface", DKP_10N = 0, DKP_10H = 150, DKP_25N = 100, DKP_25H = 200 },
     { name = "Professor Putricide", DKP_10N = 0, DKP_10H = 150, DKP_25N = 100, DKP_25H = 200 },
 	{ name = "Prince Valanar", DKP_10N = 0, DKP_10H = 150, DKP_25N = 100, DKP_25H = 200 },
     { name = "Blood-Queen Lana'thel", DKP_10N = 0, DKP_10H = 150, DKP_25N = 100, DKP_25H = 200 },
     { name = "Valithria Dreamwalker", DKP_10N = 0, DKP_10H = 150, DKP_25N = 100, DKP_25H = 200 },
-    { name = "Sindragosa", DKP_10N = 0, DKP_10H = 300, DKP_25N = 200, DKP_25H = 400 },
+    { name = "Sindragosa", DKP_10N = 0, DKP_10H = 150, DKP_25N = 100, DKP_25H = 200 },
     { name = "The Lich King", DKP_10N = 0, DKP_10H = 300, DKP_25N = 200, DKP_25H = 400 },
 
     -- Ruby Sanctum (25 гер = 800 всего, 25 об = 400 всего) - Халион дает больше очков
@@ -89,7 +89,7 @@ QDKP2_Bosses = {
 
     -- Trial of the Crusader (ТОЛЬКО ГЕРОИЧЕСКИЙ РЕЖИМ) (25 гер = 1000 всего, 10 гер = 500 всего)
 	{ name = "--------TotC--------", DKP_10N = 0, DKP_10H = 0, DKP_25N = 0, DKP_25H = 0 },
-    { name = "Icehowl", DKP_10N = nil, DKP_10H = 100, DKP_25N = nil, DKP_25H = 200 },
+    { name = "Northrend Beasts", DKP_10N = nil, DKP_10H = 100, DKP_25N = nil, DKP_25H = 200 },
     { name = "Lord Jaraxxus", DKP_10N = nil, DKP_10H = 100, DKP_25N = nil, DKP_25H = 200 },
     { name = "Faction Champions", DKP_10N = nil, DKP_10H = 100, DKP_25N = nil, DKP_25H = 200 },
     { name = "The Twin Val'kyr", DKP_10N = nil, DKP_10H = 100, DKP_25N = nil, DKP_25H = 200 },
@@ -512,10 +512,10 @@ QDKP2_AWARD_ALT_TIMER = true                -- если = true , альт пер
 QDKP2_AWARD_ALT_ZEROSUM = true              -- если = true , альт персонажам начисляется нулевая сумма
 QDKP2_AWARD_ALT_IRONMAN = true              -- если = true , альт персонажам начисляется IronMan бонус
 
-QDKP2_AWARD_STANDBY_RAIDAWARD = "100%"      -- "%" от начисления рейду, если игрок на замене
-QDKP2_AWARD_STANDBY_TIMER = "100%"          -- "%" от начисления часового бонуса, если игрок на замене
-QDKP2_AWARD_STANDBY_ZEROSUM = "100%"        -- "%" от начисления часового бонуса, если игрок на замене
-QDKP2_AWARD_STANDBY_IRONMAN = "100%"        -- "%" от IronMan бонуса, если игрок на замене
+QDKP2_AWARD_STANDBY_RAIDAWARD = "50%"      -- "%" от начисления рейду, если игрок на замене
+QDKP2_AWARD_STANDBY_TIMER = "50%"          -- "%" от начисления часового бонуса, если игрок на замене
+QDKP2_AWARD_STANDBY_ZEROSUM = "50%"        -- "%" от начисления часового бонуса, если игрок на замене
+QDKP2_AWARD_STANDBY_IRONMAN = "50%"        -- "%" от IronMan бонуса, если игрок на замене
 
 QDKP2_AWARD_EXTERNAL_RAIDAWARD = true        -- если = true , игрокам вне гильдии начисляются награды рейду
 QDKP2_AWARD_EXTERNAL_TIMER = true            -- если = true , игрокам вне гильдии начисляется часовой бонус
