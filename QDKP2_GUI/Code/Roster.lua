@@ -893,6 +893,188 @@ local LogVoices = {
                  hasArrow = true,
                  menuList = QuickModifyVoices,
     },
+    MyQuickMod = { 
+        text = "|cFF3366FFЦЛК Бис-Хил-Танк-Допы",  -- или "My Actions" если хотите по-английски
+        hasArrow = true,
+        menuList = {
+			{ text = "|cFF3366FFЦЛК ОБ", notClickable = true },  -- разделитель
+            { text = "Бис (+200)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 200, "за БИС")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+            
+            { text = "Хил/Танк (+400)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 400, "за ХИЛ/ТАНК")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+            
+            { text = "Бис Хил/Танк (+600)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 600, "за БИС ХИЛ/ТАНК")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+            
+            { text = "|cFF3366FFЦЛК ХМ", notClickable = true },  -- разделитель
+            { text = "Бис (+400)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 400, "за БИС")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+            
+            { text = "Хил/Танк (+800)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 800, "за ХИЛ/ТАНК")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+            
+            { text = "Бис Хил/Танк (+1200)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 1200, "за БИС ХИЛ/ТАНК")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+			
+            { text = "|cFF00FF00Контроль/Касты/Слизни (+200)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 200, "за КОНТРОЛЬ/КАСТЫ/СЛИЗНИ")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+			
+			{ text = "|cFF00FF00Тотал Р1 (+200)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 200, "за Тотал Р1")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+			
+			{ text = "|cFF00FF00Тотал Р2-5 (+100)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 100, "за Тотал Р2-5")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+			
+			{ text = "|cFFFFCC00Дпс Орк 21+ (+400)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 400, "за Дпс Орк 21+")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+			
+			{ text = "|cFFFFCC00Дпс Орк 19+ (+200)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 200, "за Дпс Орк 19+")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+			
+			{ text = "|cFFFFCC00Дпс Проф 17+ (+200)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 200, "за ДПС Проф 17+")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+			
+			{ text = "|cFFFFCC00Дпс Проф 15+ (+100)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 100, "за ДПС Проф 15+")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+			
+			{ text = "|cFFFFCC00Дпс Лич 18+ (+200)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 200, "за ДПС Лич 18+")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+			
+			{ text = "|cFFFFCC00Дпс Лич 16+ (+100)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 100, "за ДПС Лич 16+")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+        }
+    },
+	MyQuickModTwo = { 
+        text = "|cFFFF0000РС Бис-Хил-Танк",  -- или "My Actions" если хотите по-английски
+        hasArrow = true,
+        menuList = {
+			{ text = "|cFFFF0000РС ОБ", notClickable = true },  -- разделитель
+            { text = "Бис (+100)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 100, "за БИС")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+            
+            { text = "Хил/Танк (+200)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 200, "за ХИЛ/ТАНК")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+            
+            { text = "Бис Хил/Танк (+300)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 300, "за БИС ХИЛ/ТАНК")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+            
+            { text = "|cFFFF0000РС ХМ", notClickable = true },  -- разделитель
+            { text = "Бис (+200)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 200, "за БИС")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+            
+            { text = "Хил/Танк (+400)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 400, "за ХИЛ/ТАНК")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+            
+            { text = "Бис Хил/Танк (+600)",
+              func = function()
+                  QDKP2_PlayerGains(myClass.SelectedPlayers, 600, "за БИС ХИЛ/ТАНК")
+                  QDKP2GUI_CloseMenus()
+                  QDKP2_RefreshAll()
+              end
+            },
+        }
+    },	
     Notify = { text = QDKP2_LOC_GUINOTIFYDKP,
                func = function()
                    for i, name in pairs(myClass.SelectedPlayers) do
@@ -1112,6 +1294,8 @@ function myClass.PlayerMenu(self, List)
             table.insert(menu, LogVoices.ExternalRem)
         end
         table.insert(menu, LogVoices.QuickMod)
+		table.insert(menu, LogVoices.MyQuickMod)
+		table.insert(menu, LogVoices.MyQuickModTwo)
         table.insert(menu, LogVoices.Revert)
         QuickModifyVoices[1].text = string.gsub(QuickModifyVoices[1].template, "$AMOUNT", tostring(QDKP2GUI_Vars.DKP_QuickModify))
         QuickModifyVoices[2].text = string.gsub(QuickModifyVoices[2].template, "$AMOUNT", tostring(QDKP2GUI_Vars.DKP_QuickModify))
@@ -1133,6 +1317,8 @@ function myClass.PlayerMenu(self, List)
             table.insert(menu, LogVoices.AllStandbyAdd);
         end
         table.insert(menu, LogVoices.QuickMod)
+		table.insert(menu, LogVoices.MyQuickMod)
+		table.insert(menu, LogVoices.MyQuickModTwo)
         table.insert(menu, LogVoices.Revert)
         QuickModifyVoices[1].text = string.gsub(QuickModifyVoices[1].template, "$AMOUNT", tostring(QDKP2GUI_Vars.DKP_QuickModify))
         QuickModifyVoices[2].text = string.gsub(QuickModifyVoices[2].template, "$AMOUNT", tostring(QDKP2GUI_Vars.DKP_QuickModify))
